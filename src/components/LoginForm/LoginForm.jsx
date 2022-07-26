@@ -38,7 +38,7 @@ function LoginForm() {
     <hr />
       <p 
       className='text-center'
-      style={{cursor:'pointer', textDecoration: 'underline dotted'}}
+      style={{cursor:'pointer', textDecoration: 'underline'}}
       >
         Créer un compte
       </p>
