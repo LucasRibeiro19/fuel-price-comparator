@@ -1,5 +1,6 @@
 import React from 'react';
 import LoginForm from '../components/LoginForm/LoginForm';
+import SignUpForm from '../components/SignUpForm/SignUpForm';
 
 const style = {
     display: 'flex',
@@ -12,9 +13,12 @@ const style = {
 }
 
 export default function Home() {
+
+  
   return (
     <div style={style}>
         <LoginForm/>
+        <SignUpForm/>
     </div>
   )
 }
