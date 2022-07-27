@@ -1,8 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
+import { LoggingFormsContext } from '../../context/LoggingFormsContext';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { CloseButton } from 'react-bootstrap';
-import { LoggingFormsContext } from '../../context/LoggingFormsContext';
 
 const style = {
     width: '350px',
@@ -14,8 +16,20 @@ const style = {
 export default function SignUpForm() {
 
     const {formState, toggleForms} = useContext(LoggingFormsContext);
+    const navigate = useNavigate();
+    const [validation, setValidation] = useState("");
+
+    const inputs = useRef([]);
+    const addInputs = el => {
+        if(el && !inputs.current.includes(el)){
+          inputs.current.push(el)
+        }
+    };
 
     
+    
+    const formRef = useRef();
+    console.log(formRef);
 
 return (
     <>
@@ -27,41 +41,27 @@ return (
                 onClick={() => toggleForms("signIn")}
                 />
                 <h1 className='text-center'>Inscription</h1>
-                <Form>
+                <Form
+                ref={formRef}
+                >
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" placeholder="Email" />
+                    <Form.Control ref={addInputs} type="email" placeholder="Email" />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
                     <Form.Label>Mot de passe</Form.Label>
-                    <Form.Control type="password" placeholder="Mot de passe" />
+                    <Form.Control ref={addInputs} type="password" placeholder="Mot de passe" />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
                     <Form.Label>Confirmer mot de passe</Form.Label>
-                    <Form.Control type="password" placeholder="Confirmer" />
+                    <Form.Control ref={addInputs} type="password" placeholder="Confirmer" />
                 </Form.Group>
-                {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Se souvenir de moi" />
-                </Form.Group> */}
                 <div className="text-center">
                     <Button variant="dark" type="submit">
                     Valider
                     </Button>
                 </div>
-                {/* <hr />
-                <p 
-                className='text-center'
-                style={{cursor:'pointer', textDecoration: 'underline'}}
-                >
-                    Créer un compte
-                </p>
-                <p className='text-center'>Ou</p>
-                <GoogleButton 
-                type='light'
-                label='Connectez vous avec Google'
-                style={{width:'100%'}}
-                /> */}
                 </Form>
         </div>
         )}
