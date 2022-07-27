@@ -1,6 +1,7 @@
 import React from 'react';
 import LoginForm from '../components/LoginForm/LoginForm';
 import SignUpForm from '../components/SignUpForm/SignUpForm';
+import PasswordResetForm from '../components/PasswordResetForm/PasswordResetForm';
 
 const style = {
     display: 'flex',
@@ -17,8 +18,9 @@ export default function Home() {
   
   return (
     <div style={style}>
-        <LoginForm/>
-        <SignUpForm/>
+        <LoginForm />
+        <SignUpForm />
+        <PasswordResetForm />
     </div>
   )
 }

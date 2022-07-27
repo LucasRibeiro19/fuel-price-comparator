@@ -9,19 +9,28 @@ export const LoggingFormsContextProvider = ({children}) => {
     //Forms visibility management
     const [formState, setFormState] = useState({
         signInForm: true,
-        signUpForm: false
+        signUpForm: false,
+        resetPwdForm: false
     })
 
     const toggleForms = (form) =>{
         if(form === "signIn"){
             setFormState({
                 signInForm: true,
-                signUpForm: false
+                signUpForm: false,
+                resetPwdForm: false
             })
         }else if(form === "signUp"){
             setFormState({
                 signInForm: false,
-                signUpForm: true
+                signUpForm: true,
+                resetPwdForm: false
+            })
+        }else if(form === "resetPwd"){
+            setFormState({
+                signInForm: false,
+                signUpForm: false,
+                resetPwdForm: true
             })
         }
     };

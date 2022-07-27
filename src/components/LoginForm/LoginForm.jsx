@@ -41,7 +41,8 @@ function LoginForm() {
             <Form.Check type="checkbox" label="Se souvenir de moi" />
           </Form.Group> */}
           <p 
-          style={{cursor:'pointer'}}
+          style={{cursor:'pointer', width:'50%'}}
+          onClick={() => toggleForms("resetPwd")}
           >
             Mot de passe oublié ?
           </p>
