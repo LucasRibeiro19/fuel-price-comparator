@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { CloseButton } from 'react-bootstrap';
-import { useContext } from 'react';
 import { LoggingFormsContext } from '../../context/LoggingFormsContext';
 
 const style = {
@@ -10,11 +9,13 @@ const style = {
     padding: '1em',
     backgroundColor: '#fff',
     borderRadius: '10px'
-}
+};
 
 export default function SignUpForm() {
 
-    const {formState, toggleForms} = useContext(LoggingFormsContext)
+    const {formState, toggleForms} = useContext(LoggingFormsContext);
+
+    
 
 return (
     <>

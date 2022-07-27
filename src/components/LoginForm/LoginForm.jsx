@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import GoogleButton from 'react-google-button';
-import { useContext } from 'react';
 import { LoggingFormsContext } from '../../context/LoggingFormsContext';
 
 const style = {
@@ -15,7 +14,10 @@ const style = {
 
 function LoginForm() {
   
-  const {formState, toggleForms} = useContext(LoggingFormsContext)
+  const {formState, toggleForms} = useContext(LoggingFormsContext);
+
+  
+  const [logInError, setLogInError]= useState(""); //To catch auth errors
 
   return (
     <>
@@ -34,9 +36,15 @@ function LoginForm() {
             <Form.Label>Mot de passe</Form.Label>
             <Form.Control type="password" placeholder="Mot de passe" />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
+          <p className="text-danger mt-1">{logInError}</p>
+          {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
             <Form.Check type="checkbox" label="Se souvenir de moi" />
-          </Form.Group>
+          </Form.Group> */}
+          <p 
+          style={{cursor:'pointer'}}
+          >
+            Mot de passe oublié ?
+          </p>
           <div className="text-center">
             <Button variant="dark" type="submit">
               Se connecter
