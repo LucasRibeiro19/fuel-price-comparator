@@ -20,17 +20,11 @@ export default function SignUpForm() {
     const {
         formState, 
         toggleForms, 
-        passwordCheck,
-        lengthPwdController,
-        upperCasePwdController,
-        lowerCasePwdController,
-        numberPwdController,
-        specialCharPwdController
     } = useContext(LoggingFormsContext); //form Visibility
 
 
     const navigate = useNavigate();
-    const [passwordControl, setPasswordControl] = useState(""); //Password control 
+    const [password, setPassword] = useState(""); //Password control 
 
     const inputs = useRef([]); 
     const addInputs = el => { //getting form values
@@ -39,22 +33,28 @@ export default function SignUpForm() {
         }
     };
 
-    function livePwdController (e){ //Live strength password check
+    const handlePassword =  (e) => { //Live strength password check
         e.preventDefault();
-        setPasswordControl(e.target.value)
-        passwordCheck(passwordControl)
+        setPassword(e.target.value)
     }
+
+    const lowercaseLetter = /[a-z]/.test(password)
+    const uppercaseLetter = /[A-Z]/.test(password)
+    const specialCharacter = /[!@#$%^&*()\\[\]{}\-_+=~`|:;"'<>,./?]/.test(password)
+    const number = /[0-9]/.test(password)
+    const passwordLength = password.length >= 8
 
 
     const handleSignUpForm = async (e) => {
         e.preventDefault();
         let strongPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})');
 
-        if(!strongPassword.test(passwordControl)){
-            return;
+        if(!strongPassword.test(password)){
+            console.log('weak');
+        }else{
+            console.log('strong');
         }
     };
-    console.log(passwordControl.length)
     // const formRef = useRef();
 return (
     <>
@@ -77,14 +77,14 @@ return (
 
                 <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
                     <Form.Label>Mot de passe</Form.Label>
-                    <Form.Control onChange={livePwdController} ref={addInputs} type="password" placeholder="Mot de passe" />
+                    <Form.Control onChange={handlePassword} ref={addInputs} value={password} type="password" placeholder="Mot de passe" />
                 </Form.Group>
                 <ul>
-                    <li className={lengthPwdController ? 'text-success' : null}>8 charactères minimum</li>
-                    <li className={upperCasePwdController ? 'text-success' : null}>1 lettre majuscule</li>
-                    <li className={lowerCasePwdController ? 'text-success' : null}>1 lettre minuscule</li>
-                    <li className={numberPwdController ? 'text-success' : null}>1 chiffre minimum</li>
-                    <li className={specialCharPwdController ? 'text-success' : null}>1 charactère spécial</li>
+                    <li className={passwordLength ? 'text-success' : null}>8 charactères minimum</li>
+                    <li className={uppercaseLetter ? 'text-success' : null}>1 lettre majuscule</li>
+                    <li className={lowercaseLetter ? 'text-success' : null}>1 lettre minuscule</li>
+                    <li className={number ? 'text-success' : null}>1 chiffre minimum</li>
+                    <li className={specialCharacter ? 'text-success' : null}>1 charactère spécial</li>
                 </ul>
                 <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
                     <Form.Label>Confirmer mot de passe</Form.Label>
