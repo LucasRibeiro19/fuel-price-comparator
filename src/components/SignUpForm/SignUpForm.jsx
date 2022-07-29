@@ -23,10 +23,13 @@ export default function SignUpForm() {
     } = useContext(LoggingFormsContext); //form Visibility
 
 
-    const navigate = useNavigate();
     const [password, setPassword] = useState(""); //Password control 
+    const [repeatPassword, setRepeatPassword] = useState(""); //Confirm password control 
+
+    const navigate = useNavigate();
 
     const inputs = useRef([]); 
+
     const addInputs = el => { //getting form values
         if(el && !inputs.current.includes(el)){
           inputs.current.push(el)
@@ -36,24 +39,33 @@ export default function SignUpForm() {
     const handlePassword =  (e) => { //Live strength password check
         e.preventDefault();
         setPassword(e.target.value)
-    }
+    };
 
-    const lowercaseLetter = /[a-z]/.test(password)
-    const uppercaseLetter = /[A-Z]/.test(password)
-    const specialCharacter = /[!@#$%^&*()\\[\]{}\-_+=~`|:;"'<>,./?]/.test(password)
-    const number = /[0-9]/.test(password)
-    const passwordLength = password.length >= 8
+    const containsLowercase = /[a-z]/.test(password); //password lowercase check
+    const containsUppercase = /[A-Z]/.test(password); //password uppercase check
+    const containsSpecialCharacter = /[^A-Za-z0-9]/.test(password); //password special char check
+    const containsNumber = /[0-9]/.test(password); //password number check
+    const passwordLength = password.length >= 8; //password length check
+    const strongPasswordRegExp = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})'); //check critereas
+    const strongPasswordTest = strongPasswordRegExp.test(password);
 
+    const handleRepeatPassword = (e) => {
+        e.preventDefault()
+        setRepeatPassword(e.target.value)
+    };
 
-    const handleSignUpForm = async (e) => {
+    const passwordsMatches = (repeatPassword != '') && repeatPassword === password; // Password confirm match test 
+
+    const handleSubmit = async (e) => { //Submit signup form
         e.preventDefault();
-        let strongPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})');
 
-        if(!strongPassword.test(password)){
-            console.log('weak');
-        }else{
-            console.log('strong');
-        }
+        if(!strongPasswordTest){
+            return;
+        };
+
+        if (inputs.current[1].value !=  inputs.current[1].value) {
+            return;
+        };
     };
     // const formRef = useRef();
 return (
@@ -67,28 +79,28 @@ return (
                 />
                 <h1 className='text-center'>Inscription</h1>
                 <Form
-                onSubmit={handleSignUpForm}
+                onSubmit={handleSubmit}
                 // ref={formRef}
                 >
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email</Form.Label>
-                    <Form.Control ref={addInputs} type="email" placeholder="Email" />
+                    <Form.Control ref={addInputs} type="email" placeholder="Email" required />
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
+                <Form.Group className="mb-3" controlId="formPassword">
                     <Form.Label>Mot de passe</Form.Label>
-                    <Form.Control onChange={handlePassword} ref={addInputs} value={password} type="password" placeholder="Mot de passe" />
+                    <Form.Control className={strongPasswordTest ? 'form-control is-valid' : null} onChange={handlePassword} ref={addInputs} value={password} type="password" placeholder="Mot de passe" />
                 </Form.Group>
                 <ul>
                     <li className={passwordLength ? 'text-success' : null}>8 charactères minimum</li>
-                    <li className={uppercaseLetter ? 'text-success' : null}>1 lettre majuscule</li>
-                    <li className={lowercaseLetter ? 'text-success' : null}>1 lettre minuscule</li>
-                    <li className={number ? 'text-success' : null}>1 chiffre minimum</li>
-                    <li className={specialCharacter ? 'text-success' : null}>1 charactère spécial</li>
+                    <li className={containsUppercase ? 'text-success' : null}>1 lettre majuscule</li>
+                    <li className={containsLowercase ? 'text-success' : null}>1 lettre minuscule</li>
+                    <li className={containsNumber ? 'text-success' : null}>1 chiffre minimum</li>
+                    <li className={containsSpecialCharacter ? 'text-success' : null}>1 charactère spécial</li>
                 </ul>
-                <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
+                <Form.Group className="mb-3" controlId="formRepeatPassword">
                     <Form.Label>Confirmer mot de passe</Form.Label>
-                    <Form.Control ref={addInputs} type="password" placeholder="Confirmer" />
+                    <Form.Control className={passwordsMatches ? 'form-control is-valid' : 'form-control is-invalid'} onChange={handleRepeatPassword} ref={addInputs} type="password" value={repeatPassword} placeholder="Confirmer" />
                 </Form.Group>
                 <div className="text-center">
                     <Button variant="dark" type="submit">

@@ -35,8 +35,6 @@ export const LoggingFormsContextProvider = ({children}) => {
         }
     };
 
-    //Password Check ?
-
     return(
         <LoggingFormsContext.Provider 
         value= {{
