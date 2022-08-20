@@ -1,11 +1,10 @@
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import { LoggingFormsContext } from '../../context/LoggingFormsContext';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { CloseButton } from 'react-bootstrap';
-import { isDisabled } from '@testing-library/user-event/dist/utils';
 
 const style = {
     width: '350px',

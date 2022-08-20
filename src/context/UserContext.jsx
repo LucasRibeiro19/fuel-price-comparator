@@ -32,7 +32,9 @@ export function UserContextProvider(props) {
 
     return unsubscribe;
 
-  }, [])
+  }, []);
+
+  console.log(currentUser);
 
   return (
     <UserContext.Provider value={{signUp, currentUser, signIn, verifyEmail, changePwd}}>
