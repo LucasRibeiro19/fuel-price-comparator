@@ -16,6 +16,8 @@ const style = {
 export default function SignUpForm() {
 
 
+    const {signUp} = useContext(UserContext);
+
     
     const {
         formState, 
@@ -25,6 +27,7 @@ export default function SignUpForm() {
 
     const [password, setPassword] = useState(""); //Password control 
     const [repeatPassword, setRepeatPassword] = useState(""); //Confirm password control 
+    const [signupErr, setSignupErr] = useState(""); // Form submit error manager
 
     const navigate = useNavigate();
 
@@ -54,7 +57,7 @@ export default function SignUpForm() {
         setRepeatPassword(e.target.value)
     };
 
-    const passwordsMatches = (repeatPassword != '') && repeatPassword === password; // Password confirm match test 
+    const passwordsMatches = (repeatPassword !== '') && repeatPassword === password; // Password confirm match test 
 
     const handleSubmit = async (e) => { //Submit signup form
         e.preventDefault();
@@ -63,11 +66,32 @@ export default function SignUpForm() {
             return;
         };
 
-        if (inputs.current[1].value !=  inputs.current[1].value) {
+        if (inputs.current[1].value !==  inputs.current[2].value) {
             return;
         };
+
+        try{
+
+            const cred = await signUp(
+                inputs.current[0].value,
+                inputs.current[1].value
+            )
+
+            formRef.current.reset();
+            console.log(cred);
+            toggleForms("signIn")
+
+        }catch(err){
+            if(err.code === "auth/invalid-email"){
+                setSignupErr("Format d'adresse invalide")
+            }
+            if(err.code === "auth/email-already-in-use"){
+                setSignupErr("Cette adresse est déja utilisée")
+            }
+        }
+
     };
-    // const formRef = useRef();
+    const formRef = useRef();
 return (
     <>
         {formState.signUpForm &&(
@@ -80,14 +104,15 @@ return (
                 <h1 className='text-center'>Inscription</h1>
                 <Form
                 onSubmit={handleSubmit}
-                // ref={formRef}
+                ref={formRef}
                 >
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email</Form.Label>
                     <Form.Control ref={addInputs} type="email" placeholder="Email" required />
+                    <p className='text-center text-danger'>{signupErr}</p>
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formPassword">
+                <Form.Group className="mb-3" controlId="formCreatePassword">
                     <Form.Label>Mot de passe</Form.Label>
                     <Form.Control className={strongPasswordTest ? 'form-control is-valid' : null} onChange={handlePassword} ref={addInputs} value={password} type="password" placeholder="Mot de passe" />
                 </Form.Group>

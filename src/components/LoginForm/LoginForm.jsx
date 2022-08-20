@@ -27,12 +27,12 @@ function LoginForm() {
         >
           <h1 className='text-center'>Connexion</h1>
           <Form>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Group className="mb-3" controlId="formEmail">
             <Form.Label>Email</Form.Label>
             <Form.Control type="email" placeholder="Email" />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Group className="mb-3" controlId="formPassword">
             <Form.Label>Mot de passe</Form.Label>
             <Form.Control type="password" placeholder="Mot de passe" />
           </Form.Group>
